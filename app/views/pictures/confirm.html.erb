@@ -7,4 +7,6 @@
   <p>写真:<%= @picture.image %></p>
   <p>説明文:<%= @picture.content %></p>
   <%= form.submit "投稿する" %>
+
+  <%= form.submit "戻る", name: 'back' %>
 <% end %>

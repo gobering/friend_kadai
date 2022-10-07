@@ -16,15 +16,15 @@ class PicturesController < ApplicationController
   end
 
   def create
-    @picture = Picture.new(picture_params)
+    @picture = current_user.pictures.build(picture_params)
 
-    respond_to do |format|
+    if params[:back]
+      render :new
+    else
       if @picture.save
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
-        format.json { render :show, status: :created, location: @picture }
+        redirect_to pictures_path, notice: "投稿しました！"
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
@@ -32,7 +32,7 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update(picture_params)
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully updated." }
+        format.html { redirect_to picture_url(@picture), notice: "更新しました!" }
         format.json { render :show, status: :ok, location: @picture }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -45,13 +45,14 @@ class PicturesController < ApplicationController
     @picture.destroy
 
     respond_to do |format|
-      format.html { redirect_to pictures_url, notice: "Picture was successfully destroyed." }
+      format.html { redirect_to pictures_url, notice: "投稿を削除しました!" }
       format.json { head :no_content }
     end
   end
 
   def confirm
-    @picture = Picture.new(picture_params)
+    @picture = current_user.pictures.build(picture_params)
+    render :new if @picture.invalid?
   end
 
   private
