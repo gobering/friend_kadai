@@ -15,6 +15,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'bcrypt'
 
+
 gem 'net-smtp'
 gem 'net-imap'
 gem 'net-pop'
